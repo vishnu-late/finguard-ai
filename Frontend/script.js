@@ -5,8 +5,7 @@
 
 document.addEventListener('DOMContentLoaded', () => {
     // API Configuration Base URL
-    let API_BASE_URL = localStorage.getItem('finguard_api_url') || 'http://127.0.0.1:8000';
-
+    const API_BASE_URL = 'https://finguard-ai-1-dm09.onrender.com';
     // DOM Elements - Config & Status
     const apiUrlInput = document.getElementById('apiUrlInput');
     const apiStatusBadge = document.getElementById('apiStatusBadge');
@@ -182,7 +181,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (e.target === configModal) configModal.classList.remove('open');
     });
 
-    btnTestApi.addEventListener('click', async () => {
+    btnTestApi.addEventListener('click', async() => {
         API_BASE_URL = apiUrlInput.value.trim().replace(/\/$/, '');
         const isOnline = await checkBackendHealth();
         if (isOnline) {
@@ -228,15 +227,27 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     function applyPreset(data) {
-        ageInput.value = data.person_age; ageSlider.value = data.person_age; ageValDisplay.textContent = `${data.person_age} Yrs`;
-        incomeInput.value = data.person_income; incomeSlider.value = data.person_income; incomeValDisplay.textContent = formatCurrency(data.person_income);
-        empInput.value = data.person_emp_length; empSlider.value = data.person_emp_length; empValDisplay.textContent = `${data.person_emp_length.toFixed(1)} Yrs`;
+        ageInput.value = data.person_age;
+        ageSlider.value = data.person_age;
+        ageValDisplay.textContent = `${data.person_age} Yrs`;
+        incomeInput.value = data.person_income;
+        incomeSlider.value = data.person_income;
+        incomeValDisplay.textContent = formatCurrency(data.person_income);
+        empInput.value = data.person_emp_length;
+        empSlider.value = data.person_emp_length;
+        empValDisplay.textContent = `${data.person_emp_length.toFixed(1)} Yrs`;
         homeSelect.value = data.person_home_ownership;
         intentSelect.value = data.loan_intent;
         gradeSelect.value = data.loan_grade;
-        loanInput.value = data.loan_amnt; loanSlider.value = data.loan_amnt; loanValDisplay.textContent = formatCurrency(data.loan_amnt);
-        rateInput.value = data.loan_int_rate; rateSlider.value = data.loan_int_rate; rateValDisplay.textContent = `${data.loan_int_rate}%`;
-        credHistInput.value = data.cb_person_cred_hist_length; credHistSlider.value = data.cb_person_cred_hist_length; credHistValDisplay.textContent = `${data.cb_person_cred_hist_length} Yrs`;
+        loanInput.value = data.loan_amnt;
+        loanSlider.value = data.loan_amnt;
+        loanValDisplay.textContent = formatCurrency(data.loan_amnt);
+        rateInput.value = data.loan_int_rate;
+        rateSlider.value = data.loan_int_rate;
+        rateValDisplay.textContent = `${data.loan_int_rate}%`;
+        credHistInput.value = data.cb_person_cred_hist_length;
+        credHistSlider.value = data.cb_person_cred_hist_length;
+        credHistValDisplay.textContent = `${data.cb_person_cred_hist_length} Yrs`;
 
         const radio = document.querySelector(`input[name="cb_person_default_on_file"][value="${data.cb_person_default_on_file}"]`);
         if (radio) radio.checked = true;
@@ -249,7 +260,7 @@ document.addEventListener('DOMContentLoaded', () => {
     btnReset.addEventListener('click', () => applyPreset(presets.low));
 
     // --- Form Submit & Step-by-Step AI Progress ---
-    loanForm.addEventListener('submit', async (e) => {
+    loanForm.addEventListener('submit', async(e) => {
         e.preventDefault();
         hideErrorNotification();
 
@@ -394,8 +405,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function renderFactorsBreakdown(payload, isHighRisk) {
         factorsList.innerHTML = '';
 
-        const factors = [
-            {
+        const factors = [{
                 name: 'Annual Income',
                 val: formatCurrency(payload.person_income),
                 status: payload.person_income >= 50000 ? 'positive' : 'negative',
@@ -470,7 +480,7 @@ document.addEventListener('DOMContentLoaded', () => {
         errorNotification.classList.add('hidden');
     }
 
-    btnErrorRetry.addEventListener('click', async () => {
+    btnErrorRetry.addEventListener('click', async() => {
         hideErrorNotification();
         const isConnected = await checkBackendHealth();
         if (!isConnected) {
@@ -482,7 +492,7 @@ document.addEventListener('DOMContentLoaded', () => {
     window.addEventListener('mousemove', (e) => {
         const moveX = (e.clientX / window.innerWidth - 0.5) * 30;
         const moveY = (e.clientY / window.innerHeight - 0.5) * 30;
-        
+
         const g1 = document.getElementById('globe1');
         const g2 = document.getElementById('globe2');
         const g3 = document.getElementById('globe3');
